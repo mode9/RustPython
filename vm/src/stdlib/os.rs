@@ -683,6 +683,11 @@ mod _os {
     }
 
     #[pyfunction]
+    fn getcwdb(vm: &VirtualMachine) -> PyResult<Vec<u8>> {
+        Ok(getcwd(vm)?.into_bytes().to_vec())
+    }
+
+    #[pyfunction]
     fn chdir(path: PyPathLike, vm: &VirtualMachine) -> PyResult<()> {
         env::set_current_dir(&path.path).map_err(|err| err.into_pyexception(vm))
     }
@@ -712,6 +717,14 @@ mod _os {
     #[pyfunction]
     fn exit(code: i32) {
         std::process::exit(code)
+    }
+
+    #[pyfunction]
+    fn abort() {
+        extern "C" {
+            fn abort();
+        }
+        unsafe { abort() }
     }
 
     #[pyfunction]
