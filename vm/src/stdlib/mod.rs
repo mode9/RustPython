@@ -25,6 +25,7 @@ mod platform;
 mod pystruct;
 mod random;
 mod re;
+mod html;
 #[cfg(not(target_arch = "wasm32"))]
 pub mod socket;
 mod string;
@@ -97,6 +98,7 @@ pub fn get_module_inits() -> HashMap<String, StdlibInitFunc> {
         "_imp".to_owned() => Box::new(imp::make_module),
         "unicodedata".to_owned() => Box::new(unicodedata::make_module),
         "_warnings".to_owned() => Box::new(warnings::make_module),
+        "html".to_owned() => Box::new(html::make_module),
         crate::sysmodule::sysconfigdata_name() => Box::new(sysconfigdata::make_module),
     };
 
